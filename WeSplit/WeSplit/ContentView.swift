@@ -38,8 +38,6 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             Form {
-                
-                
                 Section {
                     TextField("Amount", value: $checkAmount, format: currency)
                         .keyboardType(.decimalPad)
@@ -74,6 +72,7 @@ struct ContentView: View {
                 
                 Section {
                     Text(totalPerPerson,format: currency)
+                        .foregroundColor(tipPercentage == 0 ? .red : .primary)
                 } header: {
                     Text("Amount per person")
                 }
