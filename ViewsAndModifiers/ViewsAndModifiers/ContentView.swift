@@ -8,9 +8,23 @@
 import SwiftUI
 
 struct ContentView: View {
+    let motto1 = Text("Draco dormiens")
+    let motto2 = Text("nunquam titillandus")
+
     var body: some View {
-        Text("Hello, world!")
-            .padding()
+        NavigationView {
+            motto1
+            motto2
+            spells
+        }
+        .foregroundStyle(.ultraThinMaterial)
+
+        
+    }
+    
+    @ViewBuilder var spells: some View {
+            Text("Lumos")
+            Text("Obliviate")
     }
 }
 
