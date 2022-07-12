@@ -8,21 +8,9 @@
 import SwiftUI
 
 struct ContentView: View {
-    let motto1 = Text("Draco dormiens")
-    let motto2 = Text("nunquam titillandus")
-    
     var body: some View {
-        GridStack(rows: 4, columns: 4) { row, col in
-            Image(systemName: "\(row * 4 + col).circle")
-            Text("R\(row) C\(col)")
-        }
-        
-        
-    }
-    
-    @ViewBuilder var spells: some View {
-        Text("Lumos")
-        Text("Obliviate")
+        Text("zort")
+            .modifier(TaskModifier())
     }
 }
 
@@ -59,5 +47,19 @@ struct GridStack<Content: View>: View {
                 }
             }
         }
+    }
+}
+
+struct TaskModifier: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            .font(.largeTitle)
+            .foregroundColor(.blue)
+    }
+}
+
+extension Text {
+    func taskModified() -> some View {
+        modifier(TaskModifier())
     }
 }
