@@ -10,7 +10,7 @@ import SwiftUI
 struct ContentView: View {
     @State public var isWin = Bool.random()
     let objects = ["rock","paper","scissors"]
-    @State var currentObject = "rock"
+    @State var currentObject = ["rock","paper","scissors"].randomElement()!
     @State var score = 0
     @State var isPresented = false
     @State var clicked = 0 {
@@ -52,26 +52,27 @@ struct ContentView: View {
                             Button {
                                 if (trueAnswer(currentObject: currentObject, isWin: isWin) == object) {
                                     score += 1
-                                    print("current object:\(currentObject)   |   isWin :\(isWin)   |   object: \(object)")
+                                    print("current object:\(currentObject)   |   isWin :\(isWin)   |   trueObject: \(trueAnswer(currentObject: currentObject, isWin: isWin))   |   object: \(object)")
                                     print("score increased")
                                 }else{
                                     score -= 1
+                                    
+                                    print("current object:\(currentObject)   |   isWin :\(isWin)   |   trueObject: \(trueAnswer(currentObject: currentObject, isWin: isWin))   |   object: \(object)")
+                                    print("score deacresed")
                                 }
-                                currentObject = objects.randomElement()!
                                 isWin.toggle()
+                                currentObject = objects.randomElement()!
                                 clicked += 1
                             } label: {
                                 ZStack {
-                                    Image(systemName: "square")
-                                        .resizable()
-                                        .foregroundStyle(.black)
-                                        .frame(width: 100, height: 100, alignment: .center)
                                     Image(object)
                                         .resizable()
                                         .frame(width: 100, height: 100)
                                         .shadow(radius: 20)
                                 }
                             }
+                            .buttonStyle(.bordered)
+                            .tint(.white)
                         }
                     }
                 }
