@@ -14,6 +14,10 @@ struct ContentView: View {
     @State private var scoreTitle = ""
     @State private var score = 0
     @State private var questionCount = 1
+    @State private var animationAmount = 0.0
+    @State private var tappedFlag: Int?
+    @State private var opacity = 1.0
+    @State private var scaleAmount = 1.0
     
     
     var body: some View {
@@ -29,6 +33,7 @@ struct ContentView: View {
                     .foregroundColor(.white)
                 Spacer()
                 VStack(spacing: 15) {
+                    
                     VStack {
                         Text("Tap the flag of:")
                             .font(.subheadline.weight(.heavy))
@@ -42,7 +47,12 @@ struct ContentView: View {
                         } label: {
                             FlagImage(country: countries[number])
                         }
+                        .rotation3DEffect(.degrees(tappedFlag == number ? animationAmount : 0), axis: (x: 0, y: 1, z: 0))
+                        .opacity(tappedFlag == number ? 1 : opacity)
+                        .scaleEffect(tappedFlag == number ? 1 : scaleAmount)
+                        
                     }
+                    
                 }
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, 20)
@@ -71,10 +81,12 @@ struct ContentView: View {
             } message: {
                 Text("Your score is \(score)")
             }
+            
         }
     }
     
     func flagTapped(_ number: Int){
+        tappedFlag = number
         if questionCount == 8 {
             scoreTitle = "Game Over"
             showingScore = true
@@ -88,15 +100,28 @@ struct ContentView: View {
             score -= 1
         }
         showingScore = true
+        withAnimation {
+            animationAmount += 360
+            opacity *= 1/4
+        }
+        withAnimation(.easeInOut) {
+            scaleAmount = 0.0
+        }
+        
     }
     
     func askQuestion(){
+        animationAmount = 0
+        opacity = 0
         if questionCount == 8 {
             score = 0
         }
         countries.shuffle()
         correctAnswer = Int.random(in: 0...2)
-        questionCount += 1
+        opacity = 1.0
+        withAnimation(.easeInOut) {
+            scaleAmount = 1.0
+        }
     }
 }
 

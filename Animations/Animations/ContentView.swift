@@ -7,69 +7,68 @@
 
 import SwiftUI
 
-/* MARK: - Attaching animation to View
- struct ContentView: View {
- 
- @State private var animationAmount = 1.0
- 
- var body: some View {
- Button("Tap Me!") {
- animationAmount += 1
- }
- .padding(50)
- .background(.red)
- .foregroundColor(.white)
- .clipShape(Circle())
- .overlay(
- Circle()
- .stroke(.red)
- .scaleEffect(animationAmount)
- .opacity(2-animationAmount)
- .animation(
- .easeOut(duration: 1)
- .repeatForever(autoreverses: false),
- value: animationAmount
- )
- )
- .onAppear(){
- animationAmount = 2
- }
- 
- 
- }
- }
- */
+//MARK: - Attaching animation to View
+//struct ContentView: View {
+//
+//    @State private var animationAmount = 1.0
+//
+//    var body: some View {
+//        Button("Tap Me!") {
+//            animationAmount += 1
+//        }
+//        .padding(50)
+//        .background(.red)
+//        .foregroundColor(.white)
+//        .clipShape(Circle())
+//        .overlay(
+//            Circle()
+//                .stroke(.red)
+//                .scaleEffect(animationAmount)
+//                .opacity(2-animationAmount)
+//                .animation(
+//                    .easeOut(duration: 1)
+//                    .repeatForever(autoreverses: false),
+//                    value: animationAmount
+//                )
+//        )
+//        .onAppear(){
+//            animationAmount = 2
+//        }
+//
+//
+//    }
+//}
 
-/* MARK: - Attaching animation to state variables
- struct ContentView: View {
- 
- @State private var animationAmount = 1.0
- 
- var body: some View {
- print(animationAmount)
- 
- return VStack {
- Stepper("Scale Amount", value: $animationAmount.animation(
- .easeInOut(duration: 1)
- .repeatCount(3, autoreverses: true)
- ), in: 1...10)
- 
- Spacer()
- 
- Button("Tap Me!") {
- animationAmount += 1
- }
- .padding(40)
- .background(.red)
- .foregroundColor(.white)
- .clipShape(Circle())
- .scaleEffect(animationAmount)
- 
- }
- 
- }
- }
- */
+
+//MARK: - Attaching animation to state variables
+//struct ContentView: View {
+//
+//    @State private var animationAmount = 1.0
+//
+//    var body: some View {
+//        print(animationAmount)
+//
+//        return VStack {
+//            Stepper("Scale Amount", value: $animationAmount.animation(
+//                .easeInOut(duration: 1)
+//                .repeatCount(3, autoreverses: true)
+//            ), in: 1...10)
+//
+//            Spacer()
+//
+//            Button("Tap Me!") {
+//                animationAmount += 1
+//            }
+//            .padding(40)
+//            .background(.red)
+//            .foregroundColor(.white)
+//            .clipShape(Circle())
+//            .scaleEffect(animationAmount)
+//
+//        }
+//
+//    }
+//}
 
 //MARK: - Animating with withAnimation()
 //struct ContentView: View {
@@ -91,23 +90,22 @@ import SwiftUI
 //}
 
 
-/* MARK: - animate() modifiers orders matter. with those we can animate seperated situations with different animations.
- struct ContentView: View {
- 
- @State private var enabled = false
- 
- var body: some View {
- Button("Tap Me") {
- enabled.toggle()
- }
- .frame(width: 200, height: 200)
- .background(enabled ? .blue : .red)
- .animation(.default, value: enabled)
- .foregroundColor(.white)
- .clipShape(RoundedRectangle(cornerRadius: enabled ? 60 : 0))
- .animation(.interpolatingSpring(stiffness: 10, damping: 1), value: enabled)
- }
- */
+//MARK: - animate() modifiers orders matter. with those we can animate seperated situations with different animations.
+//struct ContentView: View {
+//
+//    @State private var enabled = false
+//
+//    var body: some View {
+//        Button("Tap Me") {
+//            enabled.toggle()
+//        }
+//        .frame(width: 200, height: 200)
+//        .background(enabled ? .blue : .red)
+//        .animation(.default, value: enabled)
+//        .foregroundColor(.white)
+//        .clipShape(RoundedRectangle(cornerRadius: enabled ? 60 : 0))
+//        .animation(.interpolatingSpring(stiffness: 10, damping: 1), value: enabled)
+//    }
 
 
 /* MARK: - This cause to animate one situation and pass desired changes
@@ -125,32 +123,31 @@ import SwiftUI
 
 //MARK: - Animating Gestures
 
-/* Dragging a card
- struct ContentView: View {
- 
- @State private var dragAmount = CGSize.zero
- 
- var body: some View {
- LinearGradient(gradient: Gradient(colors: [.yellow,.red]), startPoint: .topLeading, endPoint: .bottomLeading)
- .frame(width: 200, height: 300)
- .clipShape(RoundedRectangle(cornerRadius: 10))
- .offset(dragAmount)
- .gesture(
- DragGesture()
- .onChanged {
- dragAmount = $0.translation
- }
- .onEnded {_ in
- withAnimation(.spring()) {
- dragAmount = .zero
- }
- }
- )
- 
- 
- }
- }
- */
+//Dragging a card
+//struct ContentView: View {
+//
+//    @State private var dragAmount = CGSize.zero
+//
+//    var body: some View {
+//        LinearGradient(gradient: Gradient(colors: [.yellow,.red]), startPoint: .topLeading, endPoint: .bottomLeading)
+//            .frame(width: 200, height: 300)
+//            .clipShape(RoundedRectangle(cornerRadius: 10))
+//            .offset(dragAmount)
+//            .gesture(
+//                DragGesture()
+//                    .onChanged {
+//                        dragAmount = $0.translation
+//                    }
+//                    .onEnded {_ in
+//                        withAnimation(.spring()) {
+//                            dragAmount = .zero
+//                        }
+//                    }
+//            )
+//
+//
+//    }
+//}
 
 //struct ContentView: View {
 //
@@ -201,8 +198,56 @@ import SwiftUI
 //    }
 //}
 
+/*
+ struct ContentView: View {
+ @State private var isShowingRed = false
+ 
+ var body: some View {
+ ZStack {
+ Rectangle()
+ .fill(.blue)
+ .frame(width: 200, height: 200)
+ 
+ if isShowingRed {
+ Rectangle()
+ .fill(.red)
+ .frame(width: 200, height: 200)
+ .transition(.pivot)
+ }
+ }
+ .onTapGesture {
+ withAnimation {
+ isShowingRed.toggle()
+ }
+ }
+ }
+ }
+ 
+ struct CornerRotateModifier: ViewModifier {
+ let amount: Double
+ let anchor: UnitPoint
+ 
+ func body(content: Content) -> some View {
+ content
+ .rotationEffect(.degrees(amount),anchor: anchor)
+ .clipped()
+ }
+ }
+ 
+ extension AnyTransition {
+ static var pivot: AnyTransition {
+ modifier(
+ active: CornerRotateModifier(amount: -90, anchor: .topLeading),
+ identity: CornerRotateModifier(amount: 0, anchor: .topLeading)
+ )
+ }
+ }
+ */
+
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        HStack {
+            ContentView()
+        }
     }
 }
