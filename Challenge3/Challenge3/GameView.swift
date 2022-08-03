@@ -82,6 +82,7 @@ struct GameView: View {
             
             .onAppear {
                 askQuestion()
+                remainigQuestion = numberOfQuestion
             }
             .toolbar {
                 ToolbarItemGroup(placement: .keyboard) {
