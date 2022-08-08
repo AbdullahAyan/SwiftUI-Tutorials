@@ -8,23 +8,35 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var showingSheet = false
+    @State private var numbers = [Int]()
+    @State private var currentNumber = 0
+    
     var body: some View {
-        Button("Show Sheet") {
-            showingSheet.toggle()
-        }
-        .sheet(isPresented: $showingSheet) {
-            SecondView()
+        NavigationView {
+            VStack {
+                List {
+                    ForEach(numbers, id: \.self) {
+                        Text("Row \($0)")
+                    }
+                    .onDelete(perform: removeRows)
+                }
+                
+                Button("Add Number") {
+                    numbers.append(currentNumber+1)
+                    currentNumber += 1
+                }
+            }
+            .toolbar {
+                EditButton()
+            }
         }
     }
-    
-}
-
-struct SecondView: View {
-    @Environment(\.dismiss) var dismiss
-    var body: some View {
-        Button("Dismiss") {
-            dismiss()
+    func removeRows(at offsets: IndexSet) {
+        numbers.remove(atOffsets: offsets)
+        numbers.removeAll()
+        currentNumber -= 1
+        for number in 1...currentNumber {
+            numbers.append(number)
         }
     }
 }
