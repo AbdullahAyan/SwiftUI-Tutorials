@@ -43,20 +43,46 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             List {
-                ForEach(expenses.items) { item in
-                    VStack(alignment: .leading) {
-                        HStack {
-                            Text(item.name)
-                                .font(.largeTitle)
-                            Text(item.type)
+                Section {
+                    ForEach(expenses.items) { item in
+                        if item.type == "Personal" {
+                            VStack(alignment: .leading) {
+                                HStack {
+                                    Text(item.name)
+                                        .font(.largeTitle)
+                                    Text(item.type)
+                                }
+                                
+                                Spacer()
+                                Text(item.amount, format: .currency(code: Locale.current.currencyCode ?? "USD"))
+                            }
+                            .styling(amount: item.amount)
                         }
-                        
-                        Spacer()
-                        Text(item.amount, format: .currency(code: Locale.current.currencyCode ?? "USD"))
                     }
-                    .styling(amount: item.amount)
+                    .onDelete(perform: removeItems)
+                } header: {
+                    Text("Personal Expenses")
                 }
-                .onDelete(perform: removeItems)
+                Section {
+                    ForEach(expenses.items) { item in
+                        if item.type == "Business" {
+                            VStack(alignment: .leading) {
+                                HStack {
+                                    Text(item.name)
+                                        .font(.largeTitle)
+                                    Text(item.type)
+                                }
+                                
+                                Spacer()
+                                Text(item.amount, format: .currency(code: Locale.current.currencyCode ?? "USD"))
+                            }
+                            .styling(amount: item.amount)
+                        }
+                    }
+                    .onDelete(perform: removeItems)
+                } header: {
+                    Text("Business Expenses")
+                }
             }
             //            .preferredColorScheme(.dark)
             .navigationTitle("iExpense")
@@ -84,7 +110,7 @@ struct ContentView: View {
 struct Styling: ViewModifier {
     var amount: Double
     func body(content: Content) -> some View {
-
+        
         if amount < 10 {
             content
                 .foregroundColor(.green)
