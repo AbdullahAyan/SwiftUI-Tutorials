@@ -8,18 +8,15 @@
 import SwiftUI
 
 struct ContentView: View {
+    let astronaut: [String: Astronaut] = Bundle.main.decode("astronauts.json")
+    let missions: [Mission] = Bundle.main.decode("missions.json")
+    
     let layout = [
         GridItem(.adaptive(minimum: 80, maximum: 120)),
     ]
     
     var body: some View {
-        ScrollView(.vertical) {
-            LazyHGrid(rows: layout) {
-                ForEach(0..<1000) {
-                    Text("Item \($0)")
-                }
-            }
-        }
+        Text(missions[0].formattedDate)
     }
 }
 
