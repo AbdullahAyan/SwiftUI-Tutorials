@@ -8,10 +8,26 @@
 import SwiftUI
 
 struct MissionView: View {
-    var mission: Mission
+    struct CrewMember {
+        let role: String
+        let astronaut: Astronaut
+    }
     
-    var astronauts: [String : Astronaut] {
-        return Bundle.main.decode("astronauts.json")
+    
+    var mission: Mission
+    let crew: [CrewMember]
+    
+    
+    init(mission: Mission, astronauts: [String: Astronaut]) {
+        self.mission = mission
+        
+        self.crew = mission.crew.map { member in
+            if let astronaut = astronauts[member.name] {
+                return CrewMember(role: member.role, astronaut: astronaut)
+            } else {
+                fatalError("Missing \(member.name)")
+            }
+        }
     }
     
     var body: some View {
@@ -25,20 +41,27 @@ struct MissionView: View {
                         .padding(.top)
                     
                     VStack(alignment: .leading) {
+                        Text(mission.formattedLaunchDate)
+                            .font(.largeTitle.bold())
+                        Rectangle()
+                            .frame(height: 2)
+                            .foregroundColor(.lightBackground)
+                            .padding(.bottom)
                         Text("Mission Highlights")
                             .font(.title.bold())
                             .padding(.bottom,5)
                         
                         Text(mission.description)
-                        
-                        List {
-                            ForEach(mission.crew, id: \.name) { member in
-                                Text("1")
-                            }
-                        }
-                        
+                        Rectangle()
+                            .frame(height: 2)
+                            .foregroundColor(.lightBackground)
+                            .padding(.vertical)
+                        Text("Crew")
+                            .font(.title.bold())
+                            .padding(.bottom, 5)
                     }
                     .padding(.horizontal)
+                    CrewView(crew: crew)
                 }
                 .padding(.bottom)
             }
@@ -51,9 +74,10 @@ struct MissionView: View {
 
 struct MissionView_Previews: PreviewProvider {
     static let missions: [Mission] = Bundle.main.decode("missions.json")
+    static let astronauts: [String: Astronaut] = Bundle.main.decode("astronauts.json")
     
     static var previews: some View {
-        MissionView(mission: missions[0])
+        MissionView(mission: missions[4], astronauts: astronauts)
             .preferredColorScheme(.dark)
     }
 }
