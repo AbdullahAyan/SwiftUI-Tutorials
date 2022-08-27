@@ -135,8 +135,8 @@ import SwiftUI
 //            .offset(dragAmount)
 //            .gesture(
 //                DragGesture()
-//                    .onChanged {
-//                        dragAmount = $0.translation
+//                    .onChanged { amount in
+//                        dragAmount = amount.translation
 //                    }
 //                    .onEnded {_ in
 //                        withAnimation(.spring()) {
