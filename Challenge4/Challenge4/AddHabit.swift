@@ -24,13 +24,20 @@ struct AddHabit: View {
                 }
             }
             .toolbar {
-                Button("Done") {
-                    if !habitName.isEmpty {
-                        habits.habits.append(Habit(name: habitName))
+                ToolbarItemGroup(placement: .navigationBarTrailing) {
+                    Button("Cancel") {
                         dismiss()
-                    } else {
-                        showAlert.toggle()
                     }
+                    Button("Done") {
+                        habitName = habitName.trimmingCharacters(in: .whitespacesAndNewlines)
+                        if !habitName.isEmpty {
+                            habits.habits.append(Habit(name: habitName))
+                            dismiss()
+                        } else {
+                            showAlert.toggle()
+                        }
+                    }
+                    
                 }
             }
         }

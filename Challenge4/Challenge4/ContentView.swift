@@ -23,15 +23,20 @@ struct ContentView: View {
                             Text(habit.name)
                         }
                     }
-                    
+                    .onDelete(perform: performDelete)
                 }
+                
             }
             .toolbar {
-                Button {
-                    showAddHabit.toggle()
-                } label: {
-                    Image(systemName: "plus")
-                        .foregroundColor(.white)
+                ToolbarItemGroup(placement: .navigationBarTrailing) {
+                    EditButton()
+                    Button {
+                        showAddHabit.toggle()
+                    } label: {
+                        Image(systemName: "plus")
+                            .foregroundColor(.white)
+                    }
+                    
                 }
             }
             .sheet(isPresented: $showAddHabit) {
@@ -42,7 +47,13 @@ struct ContentView: View {
         }
         .accentColor(.white)
     }
+    
+    func performDelete(index: IndexSet) {
+        habits.habits.remove(atOffsets: index)
+    }
 }
+
+
 
 
 struct Habit: Identifiable, Codable,Equatable {
@@ -52,7 +63,25 @@ struct Habit: Identifiable, Codable,Equatable {
 }
 
 class Habits: ObservableObject {
-    @Published var habits = [Habit]()
+    @Published var habits: [Habit] {
+        didSet {
+            let encoder = JSONEncoder()
+            if let data = try? encoder.encode(habits) {
+                UserDefaults.standard.set(data, forKey: "Habits")
+            }
+        }
+    }
+    
+    init() {
+        let decoder = JSONDecoder()
+        if let data = UserDefaults.standard.data(forKey: "Habits") {
+            if let habits = try? decoder.decode([Habit].self, from: data) {
+                self.habits = habits
+                return
+            }
+        }
+        habits = []
+    }
 }
 
 struct ContentView_Previews: PreviewProvider {

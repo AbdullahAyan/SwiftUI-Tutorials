@@ -22,10 +22,10 @@ struct HabitDetails: View {
             if animationAmount != 1.0 {
                 Button("Add") {
                     var updateHabit = habit
-                    let habitIndex = habits.habits.firstIndex(of: habit)!
                     updateHabit.count += 1
-                    self.habits.habits[habitIndex] = updateHabit
-                    withAnimation(.easeInOut(duration: 0.6)) {
+                    let index = habits.habits.firstIndex(of: habit)
+                    habits.habits[index!] = updateHabit
+                    withAnimation {
                         animationAmount = 1.0
                     }
                 }
@@ -40,6 +40,9 @@ struct HabitDetails: View {
     }
     
 }
+
+
+
 
 struct HabitDetails_Previews: PreviewProvider {
     static var habits = Habits()
